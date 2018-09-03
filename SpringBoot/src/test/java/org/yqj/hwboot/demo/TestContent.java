@@ -1,4 +1,4 @@
-package org.yqj.boot.demo;
+package org.yqj.hwboot.demo;
 
 /**
  * Created by yaoqijun.
