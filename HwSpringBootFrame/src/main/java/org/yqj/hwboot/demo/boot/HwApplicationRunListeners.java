@@ -25,7 +25,9 @@ public class HwApplicationRunListeners {
     }
 
     public void starting() {
-        log.info("hw event pushing run listener starting");
+        for (HwApplicationRunListener listener : this.listeners) {
+            listener.starting();
+        }
     }
 
     public void environmentPrepared(ConfigurableEnvironment environment) {

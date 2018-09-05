@@ -203,7 +203,6 @@ public class HwApplication {
 
             log.info("7. after refresh 刷新后 上下文");
 
-
             log.info("8 listener 通知 启动已完成");
         }catch (Throwable ex){
             throw new IllegalStateException(ex);
@@ -253,6 +252,10 @@ public class HwApplication {
     public void setListeners(Collection<? extends ApplicationListener<?>> listeners){
         this.listeners = new ArrayList<>();
         this.listeners.addAll(listeners);
+    }
+
+    public List<ApplicationListener<?>> getListeners() {
+        return listeners;
     }
 
     public void addListener(ApplicationListener<?>... listener){

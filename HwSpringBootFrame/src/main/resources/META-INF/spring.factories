@@ -1,0 +1,5 @@
+
+# Run Listeners
+org.yqj.hwboot.demo.boot.HwApplicationRunListener=\
+org.yqj.hwboot.demo.boot.context.event.HwEventPublishingRunListener
+
