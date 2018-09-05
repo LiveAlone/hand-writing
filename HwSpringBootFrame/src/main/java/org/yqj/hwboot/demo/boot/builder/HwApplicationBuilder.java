@@ -1,10 +1,11 @@
 package org.yqj.hwboot.demo.boot.builder;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.builder.ParentContextApplicationContextInitializer;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.yqj.hwboot.demo.boot.HwApplication;
 import org.yqj.hwboot.demo.boot.HwBanner;
-import org.yqj.hwboot.demo.context.HwApplicationContextInitializer;
-import org.yqj.hwboot.demo.context.HwConfigurableApplicationContext;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -28,7 +29,7 @@ public class HwApplicationBuilder {
 
     private HwApplication application;
 
-    private HwConfigurableApplicationContext context;
+    private ConfigurableApplicationContext context;
 
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
 
@@ -65,7 +66,7 @@ public class HwApplicationBuilder {
         return this;
     }
 
-    public HwConfigurableApplicationContext run(String... args){
+    public ConfigurableApplicationContext run(String... args){
         if (isRunning.get()){
             // application 已经运行状态， 可以直接返回
             return context;
@@ -106,11 +107,11 @@ public class HwApplicationBuilder {
             }
 
             // 添加 parent init 参数 的配置方式
-            initializers(new HwParentContextApplicationContextInitializer(this.parent.run(args)));
+            initializers(new ParentContextApplicationContextInitializer(this.parent.run(args)));
         }
     }
 
-    public HwApplicationBuilder initializers(HwApplicationContextInitializer<?> initializer){
+    public HwApplicationBuilder initializers(ApplicationContextInitializer<?> initializer){
         this.application.addInitializers(initializer);
         return this;
     }
