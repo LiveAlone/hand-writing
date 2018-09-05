@@ -2,6 +2,7 @@ package org.yqj.hwboot.demo.boot;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.boot.SpringBootExceptionReporter;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ApplicationListener;
@@ -72,6 +73,10 @@ public class HwApplication {
      */
     private static final String[] WEB_ENVIRONMENT_CLASSES = { "javax.servlet.Servlet",
             "org.springframework.web.context.ConfigurableWebApplicationContext" };
+
+    private static final String SYSTEM_PROPERTY_JAVA_AWT_HEADLESS = "java.awt.headless";
+
+    private boolean headless = true;
 
     /**
      * 程序运行 Main 参数 Class 获取方式
@@ -177,28 +182,54 @@ public class HwApplication {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        log.info("1 设置 handle less property, 设置 awt 的 属性 信息 配置方式等");
+        ConfigurableApplicationContext context = null;
+        Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
+        configureHeadlessProperty();
+        HwApplicationRunListeners listeners = getRunListeners(args);
+        listeners.starting();
+        try {
+            // todo running
+            log.info("1 设置 handle less property, 设置 awt 的 属性 信息 配置方式等");
 
-        log.info("2. listeners 通知 starting 项目启动开始了");
+            log.info("2. listeners 通知 starting 项目启动开始了");
 
-        log.info("3. 准备 environment  上下文环境 配置准备");
+            log.info("3. 准备 environment  上下文环境 配置准备");
 
-        log.info("4 创建对应的 application context 上下文");
+            log.info("4 创建对应的 application context 上下文");
 
-        log.info("5 prepare context 准备上下文");
+            log.info("5 prepare context 准备上下文");
 
-        log.info("6 refresh 刷新上下文");
+            log.info("6 refresh 刷新上下文");
 
-        log.info("7. after refresh 刷新后 上下文");
+            log.info("7. after refresh 刷新后 上下文");
 
 
-        log.info("8 listener 通知 启动已完成");
+            log.info("8 listener 通知 启动已完成");
+        }catch (Throwable ex){
+            throw new IllegalStateException(ex);
+        }
 
-        log.info("9 捕获异常信息， 或者返回 context 上下文信息内容");
+
+        try {
+
+            log.info("9 捕获异常信息， 或者返回 context 上下文信息内容");
+        }catch (Throwable ex){
+            throw new IllegalStateException(ex);
+        }
 
         stopWatch.stop();
-        log.info("hw configuration application context is to running, args: {} total cost:{}", Arrays.asList(args), stopWatch.getTotalTimeSeconds());
-        return null;
+
+        return context;
+    }
+
+    public HwApplicationRunListeners getRunListeners(String[] args){
+        Class<?>[] types = new Class<?>[]{HwApplication.class, String[].class};
+        return new HwApplicationRunListeners(getSpringFactoriesInstances(HwApplicationRunListener.class, types, this, args));
+    }
+
+    private void configureHeadlessProperty() {
+        System.setProperty(SYSTEM_PROPERTY_JAVA_AWT_HEADLESS, System.getProperty(
+                SYSTEM_PROPERTY_JAVA_AWT_HEADLESS, Boolean.toString(this.headless)));
     }
 
     public void addPrimarySources(Collection<Class<?>> additionalPrimarySources) {
