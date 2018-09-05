@@ -7,5 +7,5 @@ package org.yqj.hwboot.demo.context;
  * @date 2018/9/5
  * Email: qijunyao@xiaohongshu.com
  */
-public class HwConfigurableApplicationContext {
+public interface HwConfigurableApplicationContext extends HwApplicationContext {
 }

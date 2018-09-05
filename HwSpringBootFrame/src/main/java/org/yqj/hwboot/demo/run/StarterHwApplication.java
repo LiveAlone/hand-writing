@@ -12,10 +12,11 @@ import org.yqj.hwboot.demo.boot.builder.HwApplicationBuilder;
 public class StarterHwApplication {
 
     public static void main(String[] args) {
+        String[] arguments = {"args1"};
         new HwApplicationBuilder()
-                .banner(null)
+                .banner(new RunnerBanner())
                 .sources(StarterHwApplication.class)
-                .run(args);
+                .run(arguments);
     }
 
 }
