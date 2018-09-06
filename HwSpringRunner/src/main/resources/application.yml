@@ -1,3 +1,10 @@
 logging:
   level:
     root: INFO
+
+local:
+  name:yaoqijun
+  age:12
+
+remote:
+  context: none

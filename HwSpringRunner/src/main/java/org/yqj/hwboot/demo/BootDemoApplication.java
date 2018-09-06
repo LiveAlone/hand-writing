@@ -1,14 +1,13 @@
 package org.yqj.hwboot.demo;
 
-import org.springframework.boot.SpringApplication;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.HwSpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.yqj.hwboot.demo.boot.HwSpringApplication;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -22,8 +21,10 @@ import java.net.UnknownHostException;
  */
 @SpringBootApplication
 @Controller
+@Slf4j
 public class BootDemoApplication {
     public static void main(String[] args) {
+        log.info("start boot demo application context");
         new HwSpringApplication(BootDemoApplication.class)
                 .run(args);
     }
